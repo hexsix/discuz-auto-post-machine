@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\dapm"
   ],
+  "SelectedNode": "\\dapm\\login.py",
   "PreviewInSolutionExplorer": false
 }
