@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\dapm"
   ],
+  "SelectedNode": "\\dapm\\dapm.sln",
   "PreviewInSolutionExplorer": false
 }
