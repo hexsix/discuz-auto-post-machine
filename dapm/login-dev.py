@@ -67,6 +67,7 @@ def login_dz(**parms):
         data = postdata
     )
     response = opener.open(req)
+    cj.save(cookie_filename)
     source_code = response.read(300).decode('utf-8')
     flag = '登陆失败 %s'%arg['username']
     if 'succeedhandle_login' in source_code:
