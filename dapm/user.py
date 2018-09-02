@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import urllib.request, urllib, http.cookiejar, re
+import requests, re
 
 class user:
 
@@ -17,44 +17,50 @@ class user:
 
         # init
         domain = 'http://10.51.120.224/upload/'
-
-        # cooooookie
-        cookie_filename = './' + self.username + '.cookie'
-        cj = http.cookiejar.LWPCookieJar(cookie_filename)
-        handler = urllib.request.HTTPCookieProcessor(cj)
-        opener = urllib.request.build_opener(handler)
+        headers = {
+            'Host':'10.51.120.224',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:61.0) Gecko/20100101 Firefox/61.0',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+            'Accept-Encoding': 'gzip, deflate',
+            'Connection': 'keep-alive',
+            'Referer': 'http://10.51.120.224/upload/forum.php',
+        }  
+        session = requests.session()
+        session.headers.clear()
+        session.headers.update(headers)
 
         # formhash
         URL = domain + 'member.php?mod=logging&action=login&infloat=yes&handlekey=login&inajax=1&ajaxtarget=fwin_content_login'
-        response = opener.open(URL)
-        source_code = response.read().decode('utf-8')
-        patt = re.compile(r'.*?name="formhash".*?value="(.*?)".*?')
-        formhash = patt.search(source_code)
-        if not formhash:
-            print('GET formhash Failed while login.\n')
-            print('User:%s login Failed.\n'%self.username)
-            return False
-        formhash = formhash.group(1)
+        r = session.get(URL)
+        p = r.text.find('formhash') + len('formhash" value="')
+        formhash = r.text[p: p+8]
+        #print(formhash)
 
         # login
         postdata = {
             'username': self.username,
             'password': self.password,
             'formhash': formhash,
-            'questionid':0,
-            'answer': '',
-            'referer': domain
-            }
-        postdata = urllib.parse.urlencode(postdata).encode(encoding='utf-8')
-        req = urllib.request.Request(
-            url = domain + 'member.php?mod=logging&action=login&loginsubmit=yes&handlekey=login&loginhash=Lb833&inajax=1',
-            data = postdata
-            )
-        response = opener.open(req)
-        cj.save(cookie_filename)
-        source_code = response.read(300).decode('utf-8')
-        if 'succeedhandle_login' not in source_code:
+            'questionid':'0',
+            'answer':''
+        }
+        """
+        headers = {
+            'Host':'10.51.120.224',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:61.0) Gecko/20100101 Firefox/61.0',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+            'Accept-Encoding': 'gzip, deflate',
+            'Connection': 'keep-alive',
+            'Referer': 'http://10.51.120.224/upload/forum.php',
+        }  
+        """
+        URL = domain + 'member.php?mod=logging&action=login&loginsubmit=yes&handlekey=login&loginhash=Lb833&inajax=1'
+        content = session.post(URL, headers = headers, data = postdata)
+        if 'succeedhandle_login' not in content.text:
             print('User:%s login Failed.\n'%self.username)
+            print(content.text)
             return False
         return True
 
