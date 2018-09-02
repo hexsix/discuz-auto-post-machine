@@ -20,7 +20,7 @@ class user:
 
         # cooooookie
         cookie_filename = './' + self.username + '.cookie'
-        cj = http.cookiejar.LWPCookieJar(cookie_filename)
+        cj = http.cookiejar.MozillaCookieJar(cookie_filename)
         handler = urllib.request.HTTPCookieProcessor(cj)
         opener = urllib.request.build_opener(handler)
 
