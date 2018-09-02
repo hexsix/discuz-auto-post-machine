@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import urllib.request, urllib, http.cookiejar, re
+import urllib.request, urllib, http.cookiejar, re, requests
 
 class user:
 
@@ -57,7 +57,58 @@ class user:
             print('User:%s login Failed.\n'%self.username)
             return False
         return True
+    
+    def read_cookie(self):
+        filename = self.username + '.cookie'
+        cookie = ''
+        with open(filename, 'r') as f:
+            lines = f.readlines()
+            for single_line in lines:
+                if single_line[0] == '#':
+                    continue
+                else:
+                    single_line = single_line.rstrip('\n')
+                    single_line_split = single_line.split('\t')
+                    if len(single_line_split) < 2:
+                        continue
+                    cookie = cookie + single_line_split[-2]+'='+single_line_split[-1]+';'
+        return cookie
+
+    def post(self, subject, message, cookie):
+        #发帖
+        postdata = {
+            'allownoticeauthor':'1',
+            'formhash':'182c27fd',
+            'message':message,
+            'posttime':'',
+            'save':'',
+            'subject':subject,
+            'usesig':'1',
+            'wysiwyg':'1',
+        }
+        #postdata = urllib.parse.urlencode(postdata).encode(encoding='utf-8')
+        head={
+            'POST':'/upload/forum.php?mod=post&action=newthread&fid=2&extra=&topicsubmit=yes HTTP/1.1',
+            'Host':'10.51.120.224',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:61.0) Gecko/20100101 Firefox/61.0',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+            'Accept-Encoding': 'gzip, deflate',
+            'Referer': 'http://10.51.120.224/upload/forum.php?mod=post&action=newthread&fid=2',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': '134',
+            'Cookie': cookie,
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1'
+        }
+        #head = urllib.parse.urlencode(head).encode(encoding='utf-8')
+        url = 'http://10.51.120.224/upload/forum.php?mod=post&action=newthread&fid=2&extra=&topicsubmit=yes'
+        r = requests.post(url, data = postdata, headers = head)
+        #print(r.read())
+        return None
 
 if __name__ == '__main__':
     testuser = user('administrator', 'r7))thl7^6QD')
-    print(testuser.login())
+    print('succeed login', testuser.login())
+    cookie = testuser.read_cookie()
+    testuser.post('a test post 1st merge', 'abcdefghijklmnopqrstuvwxyz', cookie)
