@@ -7,6 +7,7 @@ class user:
     def __init__(self, username, password):
         self.username = username
         self.password = password
+        self.domain = 'http://10.51.120.224/upload/'
         self.headers = {
             'Host':'10.51.120.224',
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:61.0) Gecko/20100101 Firefox/61.0',
@@ -18,18 +19,31 @@ class user:
         self.session = requests.session()
         return None
 
+    def _getFormhash_(self, url, param):
+        """
+        # this fuction recieve a url and return the formhash of the url
+        :type url: string
+        :type param: int
+        :rtype: string
+        """
+        formhash = ''
+        r = self.session.get(url)
+        if param == 0:
+            p = r.text.find('formhash') + len('formhash" value="')
+            formhash = r.text[p: p + 8]
+        else:
+            p = r.text.find('formhash') + len('formhash=')
+            formhash = r.text[p: p+8]
+        return formhash
+
     def login(self):
         # init
-        domain = 'http://10.51.120.224/upload/'
         self.session.headers.clear()
         self.session.headers.update(self.headers)
 
         # formhash
-        URL = domain + 'member.php?mod=logging&action=login&infloat=yes&handlekey=login&inajax=1&ajaxtarget=fwin_content_login'
-        r = self.session.get(URL)
-        p = r.text.find('formhash') + len('formhash" value="')
-        #p = r.text.find('formhash') + len('formhash=')
-        formhash = r.text[p: p+8]
+        URL = self.domain + 'member.php?mod=logging&action=login&infloat=yes&handlekey=login&inajax=1&ajaxtarget=fwin_content_login'
+        formhash = _getFormhash_(URL, 0)
 
         # login
         postdata = {
@@ -39,25 +53,27 @@ class user:
             'questionid':'0',
             'answer':''
         }
-        URL = domain + 'member.php?mod=logging&action=login&loginsubmit=yes&handlekey=login&loginhash=Lb833&inajax=1'
+        URL = self.domain + 'member.php?mod=logging&action=login&loginsubmit=yes&handlekey=login&loginhash=Lb833&inajax=1'
         content = self.session.post(URL, headers = self.headers, data = postdata)
         
         if 'succeedhandle_login' not in content.text:
             print('User:%s login Failed.\n'%self.username)
-            print(content.text)
+            #print(content.text)
             return False
         
         return r.cookies
 
     def post(self, subject, message): 
-        url = 'http://10.51.120.224/upload/forum.php?mod=post&action=newthread&fid=2' 
+        """
+        :type subject: string
+        :type message: string
+        :rtype: None
+        """
         # formhash 
-        r = self.session.get(url)
-        #p = r.text.find('formhash') + len('formhash" value="')
-        p = r.text.find('formhash') + len('formhash=')
-        formhash = r.text[p: p+8]
+        url = self.domain + 'forum.php?mod=post&action=newthread&fid=2' 
+        formhash = _getFormhash_(url, 1)
 
-        #发帖
+        # post
         postdata = {
             'allownoticeauthor':'1',
             'formhash':formhash,
@@ -68,16 +84,22 @@ class user:
             'usesig':'1',
             'wysiwyg':'1',
         }
-        url = 'http://10.51.120.224/upload/forum.php?mod=post&action=newthread&fid=2&extra=&topicsubmit=yes'
+        url = self.domain + 'forum.php?mod=post&action=newthread&fid=2&extra=&topicsubmit=yes'
         r = self.session.post(url, data = postdata)
-        print(r.content.decode('utf-8'))
+        #print(r.content.decode('utf-8'))
         return None
-    def reply(self,tid,message):
-        url = 'http://10.51.120.224/upload/forum.php?mod=viewthread&tid='+tid+'&extra=page%3D1'
+
+    def reply(self, tid, message):
+        """
+        :type tid: string
+        :type message: string
+        :rtype: None
+        """
         # formhash 
-        r = self.session.get(url)
-        p = r.text.find('formhash') + len('formhash=')
-        formhash = r.text[p: p+8]
+        url = self.domain + 'forum.php?mod=viewthread&tid=' + tid + '&extra=page%3D1'
+        formhash = _getFormhash_(url, 1)
+
+        # reply
         postdata={
             'formhash':formhash,
             'handlekey':'reply',
@@ -88,10 +110,11 @@ class user:
             'subject':'',	
             'usesig':'1',
         }
-        url = 'http://10.51.120.224/upload/forum.php?mod=post&infloat=yes&action=reply&fid=2&extra=&tid='+tid+'&replysubmit=yes&inajax=1'
+        url = self.domain + 'forum.php?mod=post&infloat=yes&action=reply&fid=2&extra=&tid=' + tid + '&replysubmit=yes&inajax=1'
         r = self.session.post(url, data = postdata)
-        print(r.content.decode('utf-8'))
+        #print(r.content.decode('utf-8'))
         return None
+
 if __name__ == '__main__':
     testuser = user('administrator', 'r7))thl7^6QD')
     cookie = testuser.login()
