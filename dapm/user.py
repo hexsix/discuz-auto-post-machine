@@ -30,7 +30,6 @@ class user:
         p = r.text.find('formhash') + len('formhash" value="')
         #p = r.text.find('formhash') + len('formhash=')
         formhash = r.text[p: p+8]
-        print(formhash)
 
         # login
         postdata = {
@@ -57,7 +56,6 @@ class user:
         #p = r.text.find('formhash') + len('formhash" value="')
         p = r.text.find('formhash') + len('formhash=')
         formhash = r.text[p: p+8]
-        print(formhash)
 
         #发帖
         postdata = {
@@ -74,9 +72,29 @@ class user:
         r = self.session.post(url, data = postdata)
         print(r.content.decode('utf-8'))
         return None
-
+    def reply(self,tid,message):
+        url = 'http://10.51.120.224/upload/forum.php?mod=viewthread&tid='+tid+'&extra=page%3D1'
+        # formhash 
+        r = self.session.get(url)
+        p = r.text.find('formhash') + len('formhash=')
+        formhash = r.text[p: p+8]
+        postdata={
+            'formhash':formhash,
+            'handlekey':'reply',
+            'message':message,
+            'noticeauthor':'',	
+            'noticeauthormsg':'',	
+            'noticetrimstr':'',	
+            'subject':'',	
+            'usesig':'1',
+        }
+        url = 'http://10.51.120.224/upload/forum.php?mod=post&infloat=yes&action=reply&fid=2&extra=&tid='+tid+'&replysubmit=yes&inajax=1'
+        r = self.session.post(url, data = postdata)
+        print(r.content.decode('utf-8'))
+        return None
 if __name__ == '__main__':
     testuser = user('administrator', 'r7))thl7^6QD')
     cookie = testuser.login()
     print('succeed login, cookie=', cookie)
-    testuser.post('2nd test post 1st merge', 'wula! sakimichan is perfect!')
+    #testuser.post('我正在默默地测试', 'wula! sakimichan is perfect!')
+    testuser.reply('23','我在测试回复')
