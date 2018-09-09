@@ -1,8 +1,11 @@
-#LWP-Cookies-2.0
-Set-Cookie3: ueyo_2132_checkfollow=1; path="/"; domain="10.51.120.224"; path_spec; expires="2018-09-02 04:43:41Z"; version=0
-Set-Cookie3: ueyo_2132_lastact="1535863333%09member.php%09logging"; path="/"; domain="10.51.120.224"; path_spec; expires="2018-09-03 04:43:11Z"; version=0
-Set-Cookie3: ueyo_2132_lastcheckfeed="2%7C1535863333"; path="/"; domain="10.51.120.224"; path_spec; expires="2019-09-02 04:43:11Z"; version=0
-Set-Cookie3: ueyo_2132_lastvisit=1535859733; path="/"; domain="10.51.120.224"; path_spec; expires="2018-10-02 04:43:11Z"; version=0
-Set-Cookie3: ueyo_2132_saltkey=O386IEY6; path="/"; domain="10.51.120.224"; path_spec; expires="2018-10-02 04:43:11Z"; httponly=None; version=0
-Set-Cookie3: ueyo_2132_sid=xUTuuf; path="/"; domain="10.51.120.224"; path_spec; expires="2018-09-03 04:43:11Z"; version=0
-Set-Cookie3: ueyo_2132_ulastactivity="93d5kg3gNMOj0joeyQ%2B05CXX3ipBpPmNHWjVGb4v4XcgRPtkYp3o"; path="/"; domain="10.51.120.224"; path_spec; expires="2019-09-02 04:43:11Z"; version=0
+# Netscape HTTP Cookie File
+# http://curl.haxx.se/rfc/cookie_spec.html
+# This is a generated file!  Do not edit.
+
+10.51.120.224	FALSE	/	FALSE	1535875950	ueyo_2132_checkfollow	1
+10.51.120.224	FALSE	/	FALSE	1535962320	ueyo_2132_lastact	1535875862%09member.php%09logging
+10.51.120.224	FALSE	/	FALSE	1567411920	ueyo_2132_lastcheckfeed	2%7C1535875862
+10.51.120.224	FALSE	/	FALSE	1538467920	ueyo_2132_lastvisit	1535872262
+10.51.120.224	FALSE	/	FALSE	1538467920	ueyo_2132_saltkey	XPTWHN8l
+10.51.120.224	FALSE	/	FALSE	1535962320	ueyo_2132_sid	Cr4BM6
+10.51.120.224	FALSE	/	FALSE	1567411920	ueyo_2132_ulastactivity	fdbeQCDWZ7bnRIP6y%2BYXqI2smq2TztJ3PhJOipk2gCKhdxNBVTY0
