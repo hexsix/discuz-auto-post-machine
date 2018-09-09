@@ -61,7 +61,7 @@ class user:
             #print(content.text)
             return False
         
-        return r.cookies
+        return True
 
     def post(self, subject, message): 
         """

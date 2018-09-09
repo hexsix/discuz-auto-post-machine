@@ -24,9 +24,21 @@
     <Compile Include="user.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="usermgr.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="contents\1" />
+    <Content Include="contents\2" />
+    <Content Include="contents\3" />
+    <Content Include="contents\comfirm" />
+    <Content Include="contents\custom" />
+    <Content Include="state" />
     <Content Include="users" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="contents\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
