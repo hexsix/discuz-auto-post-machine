@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import abc
+import random, user
 
 class usermgr:
 
@@ -8,16 +8,13 @@ class usermgr:
         self.users = [] # todo : replace this line with your own code
 
     def getUserNum(self):
-        file_user = open('users','r')
-        count=0
-        try:
-             lines  = file_user.readlines( )
-             count=-1
-             for line in lines:
-                count=count+1
-                print(line)
-        finally:
-             file_user.close( )
+        count = 0
+        with open('users', 'r') as file_user:
+            for line in file_user.readlines():
+                if line[0] == '#':
+                    continue
+                count += 1
+                #print(line.strip())
         return count
 
     def addUser(self, uname, pwd):
@@ -35,8 +32,23 @@ class usermgr:
         :message type: string
         :rtype: bool
         """
-        # todo
-        return True
+        # todo : 服务器没开，还没有通过测试，也意识到需要 timeout
+        num = self.getUserNum()
+        rd = random.randint(1, num)
+        uname, pwd = "", ""
+        with open('users', 'r') as file_user:
+            for line in file_user.readlines():
+                if line[0] == '#':
+                    continue
+                uname, pwd = line.strip().split('\t')
+                rd -= 1
+                if rd == 0:
+                    print(uname + '\t' + pwd)
+                    SSR = user.user(uname, pwd)
+                    SSR.login()
+                    SSR.post(title, message)
+                    return True
+        return False
 
     def preContent(self, type):
         """
@@ -51,7 +63,8 @@ class usermgr:
         :content type: string
         :rtype: None
         """
-        # todo
+        with open('contents/confirm', 'w') as file_confirm:
+            file_confirm.write(content)
         return None
 
     def up(self, pid, userNum):
@@ -67,5 +80,12 @@ class usermgr:
         """
         :rtype: string
         """
-        # todo
-        return None
+        ret = ""
+        with open('state', 'r') as file_state:
+            ret = file_state.read()
+        return ret
+
+if __name__ == "__main__":
+    hex = usermgr()
+    #print(hex.post('usermgr的post test', '1234567890巴拉啦魔仙能力球！'))
+    print(hex.getUserNum())

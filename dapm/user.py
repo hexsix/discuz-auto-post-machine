@@ -43,7 +43,7 @@ class user:
 
         # formhash
         URL = self.domain + 'member.php?mod=logging&action=login&infloat=yes&handlekey=login&inajax=1&ajaxtarget=fwin_content_login'
-        formhash = _getFormhash_(URL, 0)
+        formhash = self._getFormhash_(URL, 0)
 
         # login
         postdata = {
@@ -71,7 +71,7 @@ class user:
         """
         # formhash 
         url = self.domain + 'forum.php?mod=post&action=newthread&fid=2' 
-        formhash = _getFormhash_(url, 1)
+        formhash = self._getFormhash_(url, 1)
 
         # post
         postdata = {
@@ -97,7 +97,7 @@ class user:
         """
         # formhash 
         url = self.domain + 'forum.php?mod=viewthread&tid=' + tid + '&extra=page%3D1'
-        formhash = _getFormhash_(url, 1)
+        formhash = self._getFormhash_(url, 1)
 
         # reply
         postdata={
