@@ -8,11 +8,17 @@ class usermgr:
         self.users = [] # todo : replace this line with your own code
 
     def getUserNum(self):
-        """
-        :rtype: int
-        """
-        # todo
-        return 0
+        file_user = open('users','r')
+        count=0
+        try:
+             lines  = file_user.readlines( )
+             count=-1
+             for line in lines:
+                count=count+1
+                print(line)
+        finally:
+             file_user.close( )
+        return count
 
     def addUser(self, uname, pwd):
         """

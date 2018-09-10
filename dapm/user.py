@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import urllib.request, urllib, http.cookiejar, re, requests
+import urllib.request, urllib, http.cookiejar, re, requests,usermgr
 
 class user:
 
@@ -116,8 +116,11 @@ class user:
         return None
 
 if __name__ == '__main__':
-    testuser = user('administrator', 'r7))thl7^6QD')
-    cookie = testuser.login()
-    print('succeed login, cookie=', cookie)
+    #testuser = user('administrator', 'r7))thl7^6QD')
+    #cookie = testuser.login()
+    #print('succeed login, cookie=', cookie)
     #testuser.post('我正在默默地测试', 'wula! sakimichan is perfect!')
-    testuser.reply('23','我在测试回复')
+    #testuser.reply('23','我在测试回复')
+    testuesermgr = usermgr.usermgr()
+    testuesermgr.getUserNum()
+
