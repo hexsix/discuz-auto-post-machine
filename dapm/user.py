@@ -112,8 +112,11 @@ class user:
         }
         url = self.domain + 'forum.php?mod=post&infloat=yes&action=reply&fid=2&extra=&tid=' + tid + '&replysubmit=yes&inajax=1'
         r = self.session.post(url, data = postdata)
-        #print(r.content.decode('utf-8'))
-        return True
+        check='非常感谢，回复发布成功，现在将转入主题页，请稍候……'
+        response=str(r.content.decode('utf-8'))
+        if response.find(check)!=-1:
+            return True
+        return False
 
 if __name__ == '__main__':
     #testuser = user('administrator', 'r7))thl7^6QD')

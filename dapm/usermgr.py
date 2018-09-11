@@ -8,6 +8,9 @@ class usermgr:
         self.users = [] # todo : replace this line with your own code
 
     def getUserNum(self):
+        """
+        :rtype: int
+        """
         count = 0
         with open('users', 'r') as file_user:
             for line in file_user.readlines():
@@ -23,7 +26,6 @@ class usermgr:
         :pwd type: string
         :rtype: int
         """
-        # todo : 服务器没开，去除login判断已经通过离线测试
         us=user.user(uname,pwd)
         if us.login() == True:
             with open('users','r+') as file_user:
@@ -43,7 +45,6 @@ class usermgr:
         :message type: string
         :rtype: bool
         """
-        # todo : 服务器没开，还没有通过测试，也意识到需要 timeout
         num = self.getUserNum()
         rd = random.randint(1, num)
         uname, pwd = "", ""
@@ -96,7 +97,6 @@ class usermgr:
         :userNum type: int
         :rtype: None
         """
-         # todo : 服务器没开，去除login判断已经通过离线测试
         uname=[]
         pwd=[]
         count=0
@@ -149,8 +149,4 @@ class usermgr:
 if __name__ == "__main__":
     hex = usermgr()
     #print(hex.post('usermgr的post test', '1234567890巴拉啦魔仙能力球！'))
-    #print(hex.addUser('test1','test1'))
-    #print(hex.addUser('test2','test2'))
-    #print(hex.preContent(4))
-    #hex.up(10,2)
     pass
