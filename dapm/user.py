@@ -43,7 +43,7 @@ class user:
 
         # formhash
         URL = self.domain + 'member.php?mod=logging&action=login&infloat=yes&handlekey=login&inajax=1&ajaxtarget=fwin_content_login'
-        formhash = _getFormhash_(URL, 0)
+        formhash = self._getFormhash_(URL, 0)
 
         # login
         postdata = {
@@ -67,11 +67,11 @@ class user:
         """
         :type subject: string
         :type message: string
-        :rtype: None
+        :rtype: bool
         """
         # formhash 
         url = self.domain + 'forum.php?mod=post&action=newthread&fid=2' 
-        formhash = _getFormhash_(url, 1)
+        formhash = self._getFormhash_(url, 1)
 
         # post
         postdata = {
@@ -86,18 +86,21 @@ class user:
         }
         url = self.domain + 'forum.php?mod=post&action=newthread&fid=2&extra=&topicsubmit=yes'
         r = self.session.post(url, data = postdata)
-        #print(r.content.decode('utf-8'))
-        return None
+        check='<div id="diynavtop" class="area">'
+        response=str(r.content.decode('utf-8'))
+        if response.find(check)!=-1:
+            return True
+        return False
 
     def reply(self, tid, message):
         """
         :type tid: string
         :type message: string
-        :rtype: None
+        :rtype: bool
         """
         # formhash 
         url = self.domain + 'forum.php?mod=viewthread&tid=' + tid + '&extra=page%3D1'
-        formhash = _getFormhash_(url, 1)
+        formhash = self._getFormhash_(url, 1)
 
         # reply
         postdata={
@@ -112,12 +115,16 @@ class user:
         }
         url = self.domain + 'forum.php?mod=post&infloat=yes&action=reply&fid=2&extra=&tid=' + tid + '&replysubmit=yes&inajax=1'
         r = self.session.post(url, data = postdata)
-        #print(r.content.decode('utf-8'))
-        return None
+        check='非常感谢，回复发布成功，现在将转入主题页，请稍候……'
+        response=str(r.content.decode('utf-8'))
+        if response.find(check)!=-1:
+            return True
+        return False
 
 if __name__ == '__main__':
-    testuser = user('administrator', 'r7))thl7^6QD')
-    cookie = testuser.login()
-    print('succeed login, cookie=', cookie)
+    #testuser = user('administrator', 'r7))thl7^6QD')
+    #cookie = testuser.login()
+    #print('succeed login, cookie=', cookie)
     #testuser.post('我正在默默地测试', 'wula! sakimichan is perfect!')
-    testuser.reply('23','我在测试回复')
+    #testuser.reply('23','我在测试回复')
+    pass

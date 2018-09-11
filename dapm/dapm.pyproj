@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>95387aa8-5bc7-41ad-89d1-e58e0f6166a0</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>learn.py</StartupFile>
+    <StartupFile>usermgr.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,9 +21,6 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="learn.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="user.py">
       <SubType>Code</SubType>
     </Compile>
