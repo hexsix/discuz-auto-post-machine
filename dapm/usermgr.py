@@ -55,11 +55,9 @@ class usermgr:
                 uname, pwd = line.strip().split('\t')
                 rd -= 1
                 if rd == 0:
-                    print(uname + '\t' + pwd)
                     SSR = user.user(uname, pwd)
                     SSR.login()
-                    SSR.post(title, message)
-                    return True
+                    return SSR.post(title, message)
         return False
 
     def preContent(self, type):

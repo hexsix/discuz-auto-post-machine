@@ -67,7 +67,7 @@ class user:
         """
         :type subject: string
         :type message: string
-        :rtype: None
+        :rtype: bool
         """
         # formhash 
         url = self.domain + 'forum.php?mod=post&action=newthread&fid=2' 
@@ -86,14 +86,17 @@ class user:
         }
         url = self.domain + 'forum.php?mod=post&action=newthread&fid=2&extra=&topicsubmit=yes'
         r = self.session.post(url, data = postdata)
-        #print(r.content.decode('utf-8'))
-        return None
+        check='<div id="diynavtop" class="area">'
+        response=str(r.content.decode('utf-8'))
+        if response.find(check)!=-1:
+            return True
+        return False
 
     def reply(self, tid, message):
         """
         :type tid: string
         :type message: string
-        :rtype: None
+        :rtype: bool
         """
         # formhash 
         url = self.domain + 'forum.php?mod=viewthread&tid=' + tid + '&extra=page%3D1'
