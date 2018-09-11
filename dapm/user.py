@@ -113,7 +113,7 @@ class user:
         url = self.domain + 'forum.php?mod=post&infloat=yes&action=reply&fid=2&extra=&tid=' + tid + '&replysubmit=yes&inajax=1'
         r = self.session.post(url, data = postdata)
         #print(r.content.decode('utf-8'))
-        return None
+        return True
 
 if __name__ == '__main__':
     #testuser = user('administrator', 'r7))thl7^6QD')

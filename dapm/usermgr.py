@@ -68,18 +68,17 @@ class usermgr:
         """
         res=""
         if type ==1:
-            with open('contents/1', 'r') as file_user:
-                res=file_user.read()
+            with open('contents/1', 'r') as file_contents:
+                res=file_contents.read()
         elif type == 2:
-            with open('contents/2', 'r') as file_user:
-                res=file_user.read()
+            with open('contents/2', 'r') as file_contents:
+                res=file_contents.read()
         elif type == 3 :
-            with open('contents/3', 'r') as file_user:
-                res=file_user.read()
+            with open('contents/3', 'r') as file_contents:
+                res=file_contents.read()
         elif type == 4 :
-            with open('contents/custom', 'r') as file_user:
-                res=file_user.read()
-        # todo
+            with open('contents/custom', 'r') as file_contents:
+                res=file_contents.read()
         return res
 
     def writeContent(self, content):
@@ -97,7 +96,45 @@ class usermgr:
         :userNum type: int
         :rtype: None
         """
-        # todo
+         # todo : 服务器没开，去除login判断已经通过离线测试
+        uname=[]
+        pwd=[]
+        count=0
+        with open('users', 'r') as file_user:
+            for line in file_user.readlines():
+                if line[0] == '#':
+                    continue
+                if count >= userNum:
+                    break
+                else:
+                    uname.append(line[0:line.find('\t')])
+                    pwd.append(line[line.find('\t')+1:line.find('\n')])
+                    count=count+1
+        count=0
+        with open('contents/comfirm', 'r') as file_confirm:
+            with open('state','w') as file_state:
+                mes=""
+                for line in file_confirm.readlines():
+                    if line[0]=='#':
+                        continue
+                    if line[-2:-1] != '\\':
+                        mes=mes+line[:-1]
+                        us=user.user(uname[count],pwd[count])
+                        #print(count,mes)
+                        #state=True
+                        us.login()
+                        state = us.reply(pid,mes)
+                        statestr="（"+uname[count]+"发表了“"+mes+"”："
+                        if state == True:
+                            statestr=statestr+"成功"
+                        else:
+                            statestr=statestr+"失败"
+                        statestr=statestr+"）\n"
+                        file_state.write(statestr)
+                        count=(count+1)%userNum
+                        mes=""
+                    else:
+                        mes=mes+line[:-2]+'\n'
         return None
 
     def upShow(self):
@@ -112,7 +149,8 @@ class usermgr:
 if __name__ == "__main__":
     hex = usermgr()
     #print(hex.post('usermgr的post test', '1234567890巴拉啦魔仙能力球！'))
+    #print(hex.addUser('test1','test1'))
     #print(hex.addUser('test2','test2'))
-    #print(hex.addUser('test2','test2'))
-    print(hex.preContent(4))
+    #print(hex.preContent(4))
+    #hex.up(10,2)
     pass
