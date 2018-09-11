@@ -66,8 +66,21 @@ class usermgr:
         :type type: int
         :rtype: string
         """
+        res=""
+        if type ==1:
+            with open('contents/1', 'r') as file_user:
+                res=file_user.read()
+        elif type == 2:
+            with open('contents/2', 'r') as file_user:
+                res=file_user.read()
+        elif type == 3 :
+            with open('contents/3', 'r') as file_user:
+                res=file_user.read()
+        elif type == 4 :
+            with open('contents/custom', 'r') as file_user:
+                res=file_user.read()
         # todo
-        return ""
+        return res
 
     def writeContent(self, content):
         """
@@ -99,5 +112,7 @@ class usermgr:
 if __name__ == "__main__":
     hex = usermgr()
     #print(hex.post('usermgr的post test', '1234567890巴拉啦魔仙能力球！'))
-    print(hex.addUser('test2','test2'))
-    print(hex.addUser('test2','test2'))
+    #print(hex.addUser('test2','test2'))
+    #print(hex.addUser('test2','test2'))
+    print(hex.preContent(4))
+    pass
