@@ -52,9 +52,9 @@ class learn:
     rl3=tk.Label(frm_r1,text ='添加用户    ',font=('Arial', 12),width=12,height=2)
 
     frm_r2=tk.Frame(frm_r)
-    rr1=tk.Radiobutton(frm_r2,text ='A',variable =var1 ,value ='1')
-    rr2=tk.Radiobutton(frm_r2,text ='B',variable =var1 ,value ='2')
-    rr3=tk.Radiobutton(frm_r2,text ='C',variable =var1 ,value ='3')
+    rr1=tk.Radiobutton(frm_r2,text ='预设风格A',variable =var1 ,value ='1')
+    rr2=tk.Radiobutton(frm_r2,text ='预设风格B',variable =var1 ,value ='2')
+    rr3=tk.Radiobutton(frm_r2,text ='预设风格C',variable =var1 ,value ='3')
     rr4=tk.Radiobutton(frm_r2,text ='自定义',variable =var1 ,value ='4')
     rb2=tk.Button(frm_r2,text ='  预览回帖内容  ')
     re3=tk.Entry(frm_r2,width=35,font=('Arial', 12),textvariable=entry5)
@@ -179,8 +179,10 @@ class learn:
         flag=self.umgr.addUser(uname,pwd)
         if flag==0:
             self.rl3.config(text='添加用户成功')
-        else:
+        elif flag == 1:
             self.rl3.config(text='添加用户失败')
+        else:
+            self.rl3.config(text = '已存在的用户')
         return None
 
     def c_rb2(self):
