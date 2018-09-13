@@ -33,7 +33,7 @@
     <Content Include="contents\1" />
     <Content Include="contents\2" />
     <Content Include="contents\3" />
-    <Content Include="contents\comfirm" />
+    <Content Include="contents\confirm" />
     <Content Include="contents\custom" />
     <Content Include="state" />
     <Content Include="users" />
